@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,8 +9,8 @@
 @layer base {
   :root {
     /* Background & Surface Colors */
-    --background: 220 15% 97%;
-    --foreground: 220 15% 15%;
+    --background: 220 15% 98%;
+    --foreground: 220 20% 12%;
 
     --card: 0 0% 100%;
     --card-foreground: 220 15% 15%;
@@ -16,17 +18,17 @@
     --popover: 0 0% 100%;
     --popover-foreground: 220 15% 15%;
 
-    /* Primary Research Blue */
-    --primary: 210 90% 50%;
+    /* Primary Research Blue - Enhanced */
+    --primary: 214 100% 60%;
     --primary-foreground: 0 0% 100%;
-    --primary-muted: 210 50% 85%;
+    --primary-muted: 214 50% 88%;
 
     /* Secondary Academic Colors */
-    --secondary: 220 15% 95%;
-    --secondary-foreground: 220 15% 25%;
+    --secondary: 220 15% 96%;
+    --secondary-foreground: 220 20% 20%;
 
-    --muted: 220 15% 95%;
-    --muted-foreground: 220 10% 50%;
+    --muted: 220 12% 96%;
+    --muted-foreground: 220 15% 45%;
 
     --accent: 210 80% 92%;
     --accent-foreground: 210 90% 35%;
@@ -52,16 +54,18 @@
     --research-analysis: 38 92% 50%;
     --research-synthesis: 270 70% 55%;
 
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(210 90% 50%), hsl(210 80% 60%));
-    --gradient-research: linear-gradient(135deg, hsl(210 90% 50%), hsl(270 70% 55%));
-    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(220 15% 98%));
-    --gradient-hero: linear-gradient(135deg, hsl(210 90% 50% / 0.1), hsl(270 70% 55% / 0.1));
+    /* Enhanced Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(214 100% 60%), hsl(251 90% 65%));
+    --gradient-research: linear-gradient(135deg, hsl(214 100% 60%), hsl(251 90% 65%));
+    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(220 15% 99%));
+    --gradient-hero: linear-gradient(135deg, hsl(214 100% 60% / 0.08), hsl(251 90% 65% / 0.08));
+    --gradient-accent: linear-gradient(135deg, hsl(214 100% 95%), hsl(251 90% 95%));
 
-    /* Shadows */
-    --shadow-research: 0 4px 20px hsl(210 90% 50% / 0.15);
-    --shadow-card: 0 2px 10px hsl(220 15% 25% / 0.08);
-    --shadow-elevated: 0 8px 30px hsl(220 15% 25% / 0.12);
+    /* Enhanced Shadows */
+    --shadow-research: 0 8px 32px hsl(214 100% 60% / 0.2);
+    --shadow-card: 0 4px 16px hsl(220 20% 30% / 0.06);
+    --shadow-elevated: 0 12px 40px hsl(220 20% 30% / 0.1);
+    --shadow-glow: 0 0 40px hsl(214 100% 60% / 0.3);
 
     --radius: 0.5rem;
 
@@ -77,6 +81,7 @@
 
     /* Animation timing */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 
   .dark {
@@ -124,6 +129,146 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-inter antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+    font-variation-settings: 'opsz' 32;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-inter font-semibold tracking-tight;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  /* Professional Typography */
+  .text-hero {
+    @apply text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight;
+    background: linear-gradient(135deg, hsl(var(--foreground)), hsl(var(--primary)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-subtitle {
+    @apply text-lg md:text-xl lg:text-2xl text-muted-foreground font-medium;
+  }
+
+  /* Enhanced Button Styles */
+  .btn-research {
+    @apply relative overflow-hidden;
+    background: var(--gradient-research);
+    transition: var(--transition-smooth);
+  }
+
+  .btn-research::before {
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    content: '';
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.8));
+  }
+
+  .btn-research:hover::before {
+    @apply opacity-100;
+  }
+
+  .btn-research:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* Card Enhancements */
+  .card-elevated {
+    @apply relative bg-gradient-card backdrop-blur-sm border border-border/50;
+    transition: var(--transition-smooth);
+  }
+
+  .card-elevated:hover {
+    @apply shadow-elevated;
+    transform: translateY(-4px);
+  }
+
+  /* Animation Classes */
+  .animate-fade-up {
+    animation: fadeUp 0.6s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.8s ease-out forwards;
+  }
+
+  /* Query Examples Styling */
+  .example-query {
+    @apply relative p-4 rounded-lg border border-border/50 bg-gradient-accent;
+    @apply hover:border-primary/30 hover:shadow-card transition-all duration-300;
+    @apply cursor-pointer group;
+  }
+
+  .example-query::before {
+    @apply absolute left-0 top-0 h-full w-1 bg-gradient-research rounded-l-lg;
+    @apply opacity-0 group-hover:opacity-100 transition-opacity duration-300;
+    content: '';
+  }
+
+  /* Responsive Grid */
+  .feature-grid {
+    @apply grid gap-6 md:gap-8;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+@layer utilities {
+  /* Scroll padding for smooth navigation */
+  .scroll-target {
+    scroll-margin-top: 2rem;
+  }
+}
+
+/* Keyframe Animations */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px hsl(var(--primary) / 0.5);
   }
 }

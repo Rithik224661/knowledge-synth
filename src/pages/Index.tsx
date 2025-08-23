@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -13,13 +13,22 @@ import {
   Sparkles,
   Users,
   Target,
-  Zap
+  Zap,
+  ArrowDown
 } from "lucide-react";
 import heroImage from "@/assets/research-hero.jpg";
 
 const Index = () => {
   const [isResearching, setIsResearching] = useState(false);
   const [showResults, setShowResults] = useState(false);
+  const querySectionRef = useRef<HTMLElement>(null);
+
+  const scrollToQuery = () => {
+    querySectionRef.current?.scrollIntoView({ 
+      behavior: 'smooth',
+      block: 'start'
+    });
+  };
 
   // Mock research process steps
   const mockSteps = [
@@ -149,63 +158,79 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-hero">
+      <section className="relative overflow-hidden bg-gradient-hero min-h-screen flex items-center">
         <div className="absolute inset-0">
           <img 
             src={heroImage} 
             alt="AI Research Assistant Platform" 
-            className="w-full h-full object-cover opacity-20"
+            className="w-full h-full object-cover opacity-15"
           />
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background/20 to-background/40"></div>
         </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <div className="text-center space-y-8">
-            <div className="space-y-4">
-              <Badge variant="outline" className="mb-4">
-                <Sparkles className="h-3 w-3 mr-1" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <div className="text-center space-y-8 animate-fade-up">
+            <div className="space-y-6">
+              <Badge variant="outline" className="mb-6 px-4 py-2 text-sm font-medium animate-scale-in" style={{animationDelay: '0.2s'}}>
+                <Sparkles className="h-4 w-4 mr-2" />
                 AI-Powered Research Assistant
               </Badge>
-              <h1 className="text-4xl md:text-6xl font-bold text-foreground">
+              <h1 className="text-hero leading-tight" style={{animationDelay: '0.4s'}}>
                 Multi-Tool AI Research
-                <span className="bg-gradient-research bg-clip-text text-transparent"> Assistant</span>
+                <span className="block bg-gradient-research bg-clip-text text-transparent">Assistant</span>
               </h1>
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              <p className="text-subtitle max-w-4xl mx-auto leading-relaxed" style={{animationDelay: '0.6s'}}>
                 Advanced agent framework that orchestrates web search, document analysis, and LLM synthesis 
                 to deliver comprehensive, evaluated research insights for founders and scientists.
               </p>
             </div>
             
-            <div className="flex flex-wrap justify-center gap-4">
-              <Button variant="research" size="lg">
-                <Brain className="h-5 w-5 mr-2" />
+            <div className="flex flex-wrap justify-center gap-6 animate-slide-up" style={{animationDelay: '0.8s'}}>
+              <Button 
+                variant="research" 
+                size="lg" 
+                onClick={scrollToQuery}
+                className="btn-research px-8 py-4 text-lg font-semibold"
+              >
+                <Brain className="h-6 w-6 mr-3" />
                 Start Research
               </Button>
-              <Button variant="outline" size="lg">
-                <FileText className="h-5 w-5 mr-2" />
+              <Button variant="outline" size="lg" className="px-8 py-4 text-lg font-semibold">
+                <FileText className="h-6 w-6 mr-3" />
                 View Documentation
               </Button>
+            </div>
+            
+            {/* Scroll Indicator */}
+            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+              <button 
+                onClick={scrollToQuery}
+                className="p-2 rounded-full bg-primary/10 border border-primary/20 hover:bg-primary/20 transition-all duration-300"
+              >
+                <ArrowDown className="h-6 w-6 text-primary" />
+              </button>
             </div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="py-16 bg-muted/30">
+      <section className="py-20 bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-4">Core Capabilities</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+          <div className="text-center mb-16 animate-fade-up">
+            <h2 className="text-4xl font-bold text-foreground mb-6">Core Capabilities</h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               Built on LangChain with sophisticated orchestration, evaluation, and multi-tool integration
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="feature-grid">
             {features.map((feature, index) => (
-              <Card key={index} className="p-6 text-center bg-gradient-card shadow-card hover:shadow-elevated transition-shadow">
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4 text-primary">
+              <Card key={index} className="p-8 text-center card-elevated animate-scale-in" style={{animationDelay: `${index * 0.1}s`}}>
+                <div className="w-16 h-16 bg-gradient-research rounded-xl flex items-center justify-center mx-auto mb-6 text-primary-foreground">
                   {feature.icon}
                 </div>
-                <h3 className="font-semibold text-foreground mb-2">{feature.title}</h3>
-                <p className="text-sm text-muted-foreground">{feature.description}</p>
+                <h3 className="text-xl font-semibold text-foreground mb-4">{feature.title}</h3>
+                <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
               </Card>
             ))}
           </div>
@@ -213,31 +238,44 @@ const Index = () => {
       </section>
 
       {/* Main Interface */}
-      <section className="py-16">
+      <section ref={querySectionRef} className="py-20 scroll-target">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-8">
-            <div className="space-y-6">
+          <div className="text-center mb-12 animate-fade-up">
+            <h2 className="text-4xl font-bold text-foreground mb-4">Research Interface</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Enter your complex research query and watch our multi-tool AI agent work
+            </p>
+          </div>
+          
+          <div className="grid lg:grid-cols-2 gap-12">
+            <div className="space-y-8 animate-slide-up">
               <QueryInput onSubmit={handleQuerySubmit} isLoading={isResearching} />
               
               {(isResearching || showResults) && (
-                <ResearchProcess 
-                  steps={mockSteps} 
-                  currentStep={isResearching ? "3" : undefined}
-                />
+                <div className="animate-fade-up">
+                  <ResearchProcess 
+                    steps={mockSteps} 
+                    currentStep={isResearching ? "3" : undefined}
+                  />
+                </div>
               )}
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-8 animate-slide-up" style={{animationDelay: '0.2s'}}>
               {showResults ? (
-                <ResultsDisplay result={mockResults} />
+                <div className="animate-scale-in">
+                  <ResultsDisplay result={mockResults} />
+                </div>
               ) : (
-                <Card className="p-8 bg-gradient-card shadow-card text-center">
-                  <Search className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="font-semibold text-foreground mb-2">Ready for Research</h3>
-                  <p className="text-muted-foreground">
-                    Submit a complex research query to see the multi-tool agent in action.
-                    Results will appear here with full evaluation metrics.
-                  </p>
+                <Card className="p-12 card-elevated text-center">
+                  <div className="max-w-md mx-auto">
+                    <Search className="h-16 w-16 text-primary mx-auto mb-6 opacity-60" />
+                    <h3 className="text-2xl font-semibold text-foreground mb-4">Ready for Research</h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      Submit a complex research query to see the multi-tool agent in action.
+                      Results will appear here with full evaluation metrics.
+                    </p>
+                  </div>
                 </Card>
               )}
             </div>
@@ -246,16 +284,18 @@ const Index = () => {
       </section>
 
       {/* Backend Notice */}
-      <section className="py-12 bg-accent/20">
+      <section className="py-16 bg-accent/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="p-6 bg-card rounded-lg border border-border shadow-card">
-            <Users className="h-8 w-8 text-primary mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-foreground mb-2">Backend Integration Required</h3>
-            <p className="text-muted-foreground mb-4">
+          <div className="p-8 card-elevated animate-fade-up">
+            <div className="w-16 h-16 bg-gradient-research rounded-xl flex items-center justify-center mx-auto mb-6">
+              <Users className="h-8 w-8 text-primary-foreground" />
+            </div>
+            <h3 className="text-2xl font-semibold text-foreground mb-4">Backend Integration Required</h3>
+            <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
               To enable full functionality including LangChain orchestration, LLM calls, web search, 
               and document processing, connect this project to Supabase using our native integration.
             </p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground">
               Click the green Supabase button in the top right to get started with backend functionality.
             </p>
           </div>
