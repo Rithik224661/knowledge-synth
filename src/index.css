@@ -205,15 +205,19 @@
 
   /* Query Examples Styling */
   .example-query {
-    @apply relative p-4 rounded-lg border border-border/50 bg-gradient-accent;
-    @apply hover:border-primary/30 hover:shadow-card transition-all duration-300;
-    @apply cursor-pointer group;
+    @apply relative p-6 rounded-xl border border-gray-200 bg-white dark:bg-gray-800 dark:border-gray-700;
+    @apply hover:border-blue-400 hover:shadow-lg transition-all duration-300;
+    @apply cursor-pointer text-gray-800 dark:text-gray-200;
   }
 
   .example-query::before {
-    @apply absolute left-0 top-0 h-full w-1 bg-gradient-research rounded-l-lg;
-    @apply opacity-0 group-hover:opacity-100 transition-opacity duration-300;
+    @apply absolute left-0 top-0 h-full w-1 bg-blue-500 rounded-l-lg;
+    @apply opacity-0 transition-opacity duration-300;
     content: '';
+  }
+  
+  .example-query:hover::before {
+    @apply opacity-100;
   }
 
   /* Responsive Grid */

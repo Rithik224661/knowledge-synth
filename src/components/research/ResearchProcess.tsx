@@ -8,8 +8,11 @@ import {
   BarChart3, 
   CheckCircle, 
   Clock,
-  AlertCircle
+  AlertCircle,
+  Loader2
 } from "lucide-react";
+import { useResearch } from "@/contexts/ResearchContext";
+import { useState, useEffect } from "react";
 
 interface ProcessStep {
   id: string;
@@ -24,7 +27,84 @@ interface ResearchProcessProps {
   currentStep?: string;
 }
 
-export const ResearchProcess = ({ steps, currentStep }: ResearchProcessProps) => {
+export const ResearchProcess = () => {
+  const { isLoading, status: researchStatus, step: currentStep } = useResearch();
+  
+  // Default steps that will be updated based on the actual research process
+  const [steps, setSteps] = useState<ProcessStep[]>([
+    {
+      id: 'query_analysis',
+      title: 'Query Analysis',
+      description: 'Analyzing your research question',
+      status: 'pending',
+      tool: 'llm_analysis'
+    },
+    {
+      id: 'source_retrieval',
+      title: 'Source Retrieval',
+      description: 'Searching for relevant sources',
+      status: 'pending',
+      tool: 'web_search'
+    },
+    {
+      id: 'document_processing',
+      title: 'Document Processing',
+      description: 'Extracting and processing information',
+      status: 'pending',
+      tool: 'document_loader'
+    },
+    {
+      id: 'analysis',
+      title: 'Analysis',
+      description: 'Analyzing the gathered information',
+      status: 'pending',
+      tool: 'llm_analysis'
+    },
+    {
+      id: 'synthesis',
+      title: 'Synthesis',
+      description: 'Synthesizing the results',
+      status: 'pending',
+      tool: 'llm_synthesis'
+    }
+  ]);
+  
+  // Update steps based on current step from ResearchContext
+  useEffect(() => {
+    if (isLoading) {
+      // Update steps based on currentStep from ResearchContext
+      setSteps(prevSteps => {
+        const newSteps = [...prevSteps];
+        
+        // Find the index of the current step
+        const currentStepIndex = newSteps.findIndex(step => step.id === currentStep);
+        
+        // Update all steps based on their position relative to current step
+        return newSteps.map((step, index) => {
+          // Steps before current step are completed
+          if (index < currentStepIndex) {
+            return { ...step, status: 'completed' };
+          }
+          // Current step is running
+          else if (index === currentStepIndex) {
+            return { ...step, status: 'running' };
+          }
+          // Steps after current step remain pending
+          else {
+            return { ...step, status: 'pending' };
+          }
+        });
+      });
+    } else if (researchStatus === 'completed') {
+      // Set all steps to completed when research is done
+      setSteps(prevSteps => 
+        prevSteps.map(step => ({
+          ...step,
+          status: 'completed'
+        }))
+      );
+    }
+  }, [isLoading, currentStep, researchStatus]);
   const getStepIcon = (tool: string) => {
     switch (tool) {
       case "web_search":
@@ -71,13 +151,27 @@ export const ResearchProcess = ({ steps, currentStep }: ResearchProcessProps) =>
   };
 
   const completedSteps = steps.filter(step => step.status === "completed").length;
-  const progress = (completedSteps / steps.length) * 100;
+  const inProgress = steps.some(step => step.status === 'running');
+  const progress = inProgress 
+    ? (completedSteps / steps.length) * 100 + 10 // Show some progress when running
+    : (completedSteps / steps.length) * 100;
 
   return (
     <Card className="p-6 bg-gradient-card shadow-card">
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-foreground">Research Process</h2>
+          <div className="flex items-center gap-3">
+            {inProgress ? (
+              <Loader2 className="h-5 w-5 animate-spin text-primary" />
+            ) : (
+              <div className="h-5 w-5 rounded-full bg-success flex items-center justify-center">
+                <CheckCircle className="h-3.5 w-3.5 text-white" />
+              </div>
+            )}
+            <h2 className="text-lg font-semibold text-foreground">
+              {inProgress ? 'Research in Progress' : 'Research Complete'}
+            </h2>
+          </div>
           <div className="text-sm text-muted-foreground">
             {completedSteps}/{steps.length} steps completed
           </div>
@@ -90,9 +184,9 @@ export const ResearchProcess = ({ steps, currentStep }: ResearchProcessProps) =>
             <div
               key={step.id}
               className={`flex items-start gap-4 p-4 rounded-lg border transition-all ${
-                step.id === currentStep
-                  ? "border-primary bg-accent/50"
-                  : "border-border bg-background/50"
+                step.status === 'running' 
+                  ? 'border-primary bg-accent/50' 
+                  : 'border-border bg-background/50'
               }`}
             >
               <div className="flex-shrink-0 w-8 h-8 rounded-full bg-muted flex items-center justify-center">

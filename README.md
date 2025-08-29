@@ -1,73 +1,63 @@
-# Welcome to your Lovable project
+# Knowledge Synthesis Platform
 
-## Project info
+A modern web application for research, knowledge management, and synthesis. This platform helps users conduct research queries, visualize data, and synthesize information from multiple sources.
 
-**URL**: https://lovable.dev/projects/2af167ca-0c7d-412d-b460-dc7e619a7fc8
+## Features
 
-## How can I edit this code?
+- **Research Query Interface**: Submit research questions and get comprehensive answers
+- **Data Visualization**: View research trends, tables, and visual representations of data
+- **Source Management**: Track and cite sources used in research
+- **Evaluation Metrics**: Assess the quality and relevance of research results
+- **Recommendations**: Get suggestions for further research based on your queries
 
-There are several ways of editing your application.
+## Project Structure
 
-**Use Lovable**
+The project consists of two main components:
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/2af167ca-0c7d-412d-b460-dc7e619a7fc8) and start prompting.
+### Frontend (React + TypeScript)
+- Modern UI built with React, TypeScript, and Tailwind CSS
+- Visualization components for displaying research data
+- Context-based state management
 
-Changes made via Lovable will be committed automatically to this repo.
+### Backend (Python + FastAPI)
+- Research processing engine
+- API endpoints for research queries and status tracking
+- Data processing and synthesis capabilities
 
-**Use your preferred IDE**
+## Setup Instructions
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Frontend Setup
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Start the development server: `npm run dev`
+4. Open [http://localhost:5173](http://localhost:5173) to view it in your browser
 
-Follow these steps:
+### Backend Setup
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+1. Navigate to the backend directory: `cd backend`
+2. Create a virtual environment: `python -m venv venv`
+3. Activate the virtual environment:
+   - Windows: `venv\Scripts\activate`
+   - Unix/MacOS: `source venv/bin/activate`
+4. Install dependencies: `pip install -r requirements.txt`
+5. Start the backend server: `uvicorn app.main:app --reload --port 8000`
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## Available Scripts
 
-# Step 3: Install the necessary dependencies.
-npm i
+### Frontend
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+### Backend
+- `uvicorn app.main:app --reload --port 8000` - Start the backend server with hot reloading
 
-**Edit a file directly in GitHub**
+## Deployment
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Frontend
+Build the project with `npm run build` and deploy the contents of the `dist` directory to your preferred hosting provider.
 
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/2af167ca-0c7d-412d-b460-dc7e619a7fc8) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+### Backend
+Deploy the FastAPI application using a WSGI server like Gunicorn or using cloud services that support Python applications.

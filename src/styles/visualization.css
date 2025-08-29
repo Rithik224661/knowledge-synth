@@ -1,0 +1,63 @@
+/* Visualization styles for research results */
+
+@layer components {
+  .visualization-container {
+    @apply w-full overflow-x-auto;
+  }
+
+  .visualization-container img {
+    @apply max-w-full h-auto my-4 rounded-lg shadow-md border border-border;
+  }
+
+  .research-trends-container {
+    @apply my-6 p-4 rounded-lg bg-background border border-border shadow-sm;
+  }
+
+  .research-trends-container h3 {
+    @apply mt-0 mb-4 text-xl font-semibold text-foreground;
+  }
+
+  .research-trends-container table,
+  .table-wrapper table {
+    @apply w-full border-collapse my-4;
+  }
+
+  .research-trends-container th,
+  .research-trends-container td,
+  .table-wrapper th,
+  .table-wrapper td {
+    @apply p-2 text-left border border-border;
+  }
+
+  .research-trends-container th,
+  .table-wrapper th {
+    @apply bg-muted font-semibold;
+  }
+
+  .research-trends-container .summary-stats {
+    @apply my-4 p-4 bg-muted rounded;
+  }
+  
+  .table-wrapper {
+    @apply my-6 overflow-x-auto rounded-md border border-border;
+  }
+
+  /* Publication trend visualization specific styles */
+  .publication-trend-chart {
+    @apply my-6 p-4 rounded-lg bg-card border border-border;
+  }
+
+  .publication-trend-chart svg {
+    @apply max-w-full h-auto;
+  }
+
+  .topic-analysis {
+    @apply mt-8 p-4 rounded-lg bg-accent/20;
+  }
+
+  /* Dark mode adjustments */
+  .dark .research-trends-container img,
+  .dark .publication-trend-chart img {
+    @apply brightness-90 contrast-110;
+  }
+}

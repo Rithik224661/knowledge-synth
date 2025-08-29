@@ -86,7 +86,8 @@ export default {
 				'gradient-primary': 'var(--gradient-primary)',
 				'gradient-research': 'var(--gradient-research)',
 				'gradient-card': 'var(--gradient-card)',
-				'gradient-hero': 'var(--gradient-hero)'
+				'gradient-hero': 'var(--gradient-hero)',
+				'gradient-accent': 'linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-foreground)))'
 			},
 			boxShadow: {
 				'research': 'var(--shadow-research)',

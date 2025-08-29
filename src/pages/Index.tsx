@@ -247,60 +247,18 @@ const Index = () => {
             </p>
           </div>
           
-          <div className="grid lg:grid-cols-2 gap-12">
+          <div className="max-w-5xl mx-auto">
             <div className="space-y-8 animate-slide-up">
-              <QueryInput onSubmit={handleQuerySubmit} isLoading={isResearching} />
+              <QueryInput />
               
-              {(isResearching || showResults) && (
-                <div className="animate-fade-up">
-                  <ResearchProcess 
-                    steps={mockSteps} 
-                    currentStep={isResearching ? "3" : undefined}
-                  />
-                </div>
-              )}
-            </div>
-
-            <div className="space-y-8 animate-slide-up" style={{animationDelay: '0.2s'}}>
-              {showResults ? (
-                <div className="animate-scale-in">
-                  <ResultsDisplay result={mockResults} />
-                </div>
-              ) : (
-                <Card className="p-12 card-elevated text-center">
-                  <div className="max-w-md mx-auto">
-                    <Search className="h-16 w-16 text-primary mx-auto mb-6 opacity-60" />
-                    <h3 className="text-2xl font-semibold text-foreground mb-4">Ready for Research</h3>
-                    <p className="text-muted-foreground leading-relaxed">
-                      Submit a complex research query to see the multi-tool agent in action.
-                      Results will appear here with full evaluation metrics.
-                    </p>
-                  </div>
-                </Card>
-              )}
+              <div className="animate-fade-up">
+                <ResearchProcess />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Backend Notice */}
-      <section className="py-16 bg-accent/20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="p-8 card-elevated animate-fade-up">
-            <div className="w-16 h-16 bg-gradient-research rounded-xl flex items-center justify-center mx-auto mb-6">
-              <Users className="h-8 w-8 text-primary-foreground" />
-            </div>
-            <h3 className="text-2xl font-semibold text-foreground mb-4">Backend Integration Required</h3>
-            <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-              To enable full functionality including LangChain orchestration, LLM calls, web search, 
-              and document processing, connect this project to Supabase using our native integration.
-            </p>
-            <p className="text-muted-foreground">
-              Click the green Supabase button in the top right to get started with backend functionality.
-            </p>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };
